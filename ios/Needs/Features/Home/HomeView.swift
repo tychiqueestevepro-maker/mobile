@@ -125,6 +125,7 @@ struct HomeView: View {
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .symbolEffect(.variableColor.iterative, options: .repeating)
+                    .accessibilityIdentifier("home.listening_label")
             case .finding:
                 HStack(spacing: NeedsSpacing.small) {
                     ProgressView()

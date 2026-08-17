@@ -103,8 +103,7 @@ final class NeedsSmokeUITests: XCTestCase {
         let input = app.textFields["home.input"]
         XCTAssertTrue(input.waitForExistence(timeout: 10))
         input.tap()
-        input.typeText(request)
-        app.buttons["home.submit"].tap()
+        input.typeText(request + "\n")
 
         let candidate = app.buttons.matching(
             NSPredicate(format: "identifier BEGINSWITH %@", "candidate.")
@@ -118,7 +117,7 @@ final class NeedsSmokeUITests: XCTestCase {
         let microphone = app.buttons["home.microphone"]
         XCTAssertTrue(microphone.waitForExistence(timeout: 10))
         microphone.tap()
-        XCTAssertTrue(app.staticTexts["Listening..."].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts["home.listening_label"].waitForExistence(timeout: 10))
         microphone.tap()
 
         let sensodyne = app.buttons.matching(
