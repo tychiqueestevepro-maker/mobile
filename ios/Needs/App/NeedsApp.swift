@@ -80,14 +80,14 @@ final class NeedsAppDelegate: NSObject, UIApplicationDelegate, UNUserNotificatio
         NotificationCenter.default.post(name: .needsDeviceToken, object: deviceToken)
     }
 
-    func userNotificationCenter(
+    nonisolated func userNotificationCenter(
         _ center: UNUserNotificationCenter,
         willPresent notification: UNNotification
     ) async -> UNNotificationPresentationOptions {
         [.banner, .sound]
     }
 
-    func userNotificationCenter(
+    nonisolated func userNotificationCenter(
         _ center: UNUserNotificationCenter,
         didReceive response: UNNotificationResponse
     ) async {
