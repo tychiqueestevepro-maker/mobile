@@ -63,6 +63,12 @@ final class NeedsAccessibilityUITests: XCTestCase {
         app.launch()
         addFirstProduct(named: "I need coffee")
 
+        let checkoutSummary = app.otherElements["home.checkout_summary"]
+        XCTAssertTrue(checkoutSummary.waitForExistence(timeout: 10),
+                       "Checkout summary must be reachable by VoiceOver")
+        XCTAssertFalse(checkoutSummary.label.isEmpty,
+                        "Checkout summary must announce item count and total")
+
         let checkoutButton = app.buttons["home.checkout"]
         XCTAssertTrue(checkoutButton.waitForExistence(timeout: 10),
                        "Checkout button must appear when items are on the list")
@@ -95,12 +101,9 @@ final class NeedsAccessibilityUITests: XCTestCase {
         input.tap()
         input.typeText(text)
         
-        let searchButton = app.keyboards.buttons["Search"]
-        if searchButton.waitForExistence(timeout: 2) {
-            searchButton.tap()
-        } else {
-            app.buttons["home.submit"].tap()
-        }
+        let submitBtn = app.buttons["home.submit"]
+        XCTAssertTrue(submitBtn.waitForExistence(timeout: 5))
+        submitBtn.tap()
     }
 
     private func addFirstProduct(named request: String) {

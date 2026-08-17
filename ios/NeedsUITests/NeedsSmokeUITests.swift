@@ -18,9 +18,16 @@ final class NeedsSmokeUITests: XCTestCase {
         completeOnboarding()
 
         XCTAssertTrue(app.staticTexts["home.title"].waitForExistence(timeout: 10))
-        XCTAssertTrue(app.staticTexts["home.current_list"].exists)
-        XCTAssertTrue(app.tabBars.buttons["Orders"].exists)
-        XCTAssertTrue(app.tabBars.buttons["Settings"].exists)
+        XCTAssertTrue(app.staticTexts["home.current_list"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.tabBars.buttons["Orders"].waitForExistence(timeout: 10))
+        
+        let settingsTab = app.tabBars.buttons["Settings"]
+        XCTAssertTrue(settingsTab.waitForExistence(timeout: 10))
+        settingsTab.tap()
+        
+        let reminderToggle = app.switches["settings.reminder.toggle"]
+        XCTAssertTrue(reminderToggle.waitForExistence(timeout: 10))
+        XCTAssertEqual(reminderToggle.value as? String, "1", "Default reminder should be enabled after onboarding")
     }
 
     func testNeedSelectionPersistsInCurrentListAndChecksOut() {
@@ -64,9 +71,14 @@ final class NeedsSmokeUITests: XCTestCase {
         app.tabBars.buttons["Settings"].tap()
 
         XCTAssertTrue(app.switches["settings.reminder.toggle"].waitForExistence(timeout: 10))
-        XCTAssertTrue(app.datePickers["settings.reminder.time"].exists)
-        XCTAssertTrue(app.buttons["settings.reminder.timezone"].exists)
-        XCTAssertTrue(app.buttons["settings.preferences.reset"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.datePickers["settings.reminder.time"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["settings.reminder.timezone"].waitForExistence(timeout: 5))
+        
+        let resetButton = app.buttons["settings.preferences.reset"]
+        if !resetButton.exists {
+            app.swipeUp()
+        }
+        XCTAssertTrue(resetButton.waitForExistence(timeout: 10))
     }
 
     func testVoiceRequestShowsToothpasteAndAddsSensodyne() {
@@ -105,13 +117,9 @@ final class NeedsSmokeUITests: XCTestCase {
         input.tap()
         input.typeText(request)
         
-        // Use the keyboard's 'Search' button because typeText("\n") in vertical TextField inserts a newline instead of submitting
-        let searchButton = app.keyboards.buttons["Search"]
-        if searchButton.waitForExistence(timeout: 2) {
-            searchButton.tap()
-        } else {
-            app.buttons["home.submit"].tap()
-        }
+        let submitBtn = app.buttons["home.submit"]
+        XCTAssertTrue(submitBtn.waitForExistence(timeout: 5))
+        submitBtn.tap()
 
         let candidate = app.buttons.matching(
             NSPredicate(format: "identifier BEGINSWITH %@", "candidate.")

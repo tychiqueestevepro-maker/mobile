@@ -292,11 +292,16 @@ private struct ListCheckoutBar: View {
     var body: some View {
         VStack(spacing: NeedsSpacing.small) {
             HStack {
-                Text("\(list.itemCount) \(list.itemCount == 1 ? "item" : "items")")
-                Text("·")
-                    .foregroundStyle(.tertiary)
-                Text(list.formattedSubtotal)
-                    .monospacedDigit()
+                HStack(spacing: 4) {
+                    Text("\(list.itemCount) \(list.itemCount == 1 ? "item" : "items")")
+                    Text("·")
+                        .foregroundStyle(.tertiary)
+                        .accessibilityHidden(true)
+                    Text(list.formattedSubtotal)
+                        .monospacedDigit()
+                }
+                .accessibilityElement(children: .combine)
+                .accessibilityIdentifier("home.checkout_summary")
                 Spacer()
                 if !isPlus {
                     Button("See Plus", action: showPlus)
