@@ -60,9 +60,18 @@ struct CandidateSelectionView: View {
         case let .loaded(products):
             VStack(spacing: NeedsSpacing.small) {
                 ForEach(products.prefix(3)) { product in
-                    ProductCard(product: product) {
+                    let card = ProductCard(product: product)
+                    Button {
                         Task { await model.choose(product) }
+                    } label: {
+                        card
                     }
+                    .buttonStyle(ProductPressStyle())
+                    .disabled(!product.availability.isPurchasable)
+                    .accessibilityIdentifier("candidate.\(product.id.uuidString)")
+                    .accessibilityLabel(card.accessibilityLabel)
+                    .accessibilityHint(product.availability.isPurchasable ? "Adds this product to your current list" : "Unavailable")
+                    .accessibilityElement(children: .combine)
                     .contextMenu {
                         Button(role: .destructive) {
                             Task { await model.explicitlyReject(product) }
