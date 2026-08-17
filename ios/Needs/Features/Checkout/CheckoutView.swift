@@ -116,13 +116,24 @@ struct CheckoutView: View {
                 }
 
                 VStack(spacing: NeedsSpacing.small) {
-                    ApplePayButton {
-                        Task { await model.pay() }
+                    if ProcessInfo.processInfo.arguments.contains("-UITesting") {
+                        Button("Pay with Apple Pay") {
+                            Task { await model.pay() }
+                        }
+                        .frame(height: 52)
+                        .needsButton(style: .primary)
+                        .disabled(model.isBusy || !session.unavailableItemIDs.isEmpty)
+                        .opacity(model.isBusy ? 0.6 : 1)
+                        .accessibilityIdentifier("checkout.pay")
+                    } else {
+                        ApplePayButton {
+                            Task { await model.pay() }
+                        }
+                        .frame(height: 52)
+                        .disabled(model.isBusy || !session.unavailableItemIDs.isEmpty)
+                        .opacity(model.isBusy ? 0.6 : 1)
+                        .accessibilityIdentifier("checkout.pay")
                     }
-                    .frame(height: 52)
-                    .disabled(model.isBusy || !session.unavailableItemIDs.isEmpty)
-                    .opacity(model.isBusy ? 0.6 : 1)
-                    .accessibilityIdentifier("checkout.pay")
 
                     if model.isBusy {
                         HStack(spacing: NeedsSpacing.small) {

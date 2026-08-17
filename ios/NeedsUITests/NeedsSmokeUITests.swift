@@ -46,9 +46,18 @@ final class NeedsSmokeUITests: XCTestCase {
         app.buttons["home.checkout"].tap()
         sleep(2) // Wait for NavigationStack push animation
 
-        XCTAssertTrue(app.buttons["checkout.pay"].waitForExistence(timeout: 10))
-        app.buttons["checkout.pay"].tap()
-        XCTAssertTrue(app.otherElements["tracking.timeline"].waitForExistence(timeout: 10))
+        let payButton = app.buttons["checkout.pay"]
+        XCTAssertTrue(payButton.waitForExistence(timeout: 10))
+        if !payButton.isHittable {
+            app.swipeUp()
+        }
+        payButton.tap()
+        
+        let timeline = app.otherElements["tracking.timeline"]
+        if !timeline.waitForExistence(timeout: 10) {
+            print("[UITEST][DEBUG] Checkout flow failed. Hierarchy:\n\(app.debugDescription)")
+        }
+        XCTAssertTrue(timeline.exists)
         sleep(2) // Wait for NavigationStack push animation
 
         XCTAssertTrue(app.staticTexts["Delivered"].waitForExistence(timeout: 10))
