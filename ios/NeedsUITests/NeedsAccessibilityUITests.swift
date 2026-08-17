@@ -63,7 +63,7 @@ final class NeedsAccessibilityUITests: XCTestCase {
         app.launch()
         addFirstProduct(named: "I need coffee")
 
-        let checkoutSummary = app.otherElements["home.checkout_summary"]
+        let checkoutSummary = app.descendants(matching: .any)["home.checkout_summary"]
         XCTAssertTrue(checkoutSummary.waitForExistence(timeout: 10),
                        "Checkout summary must be reachable by VoiceOver")
         XCTAssertFalse(checkoutSummary.label.isEmpty,
@@ -114,6 +114,7 @@ final class NeedsAccessibilityUITests: XCTestCase {
         XCTAssertTrue(candidate.waitForExistence(timeout: 10))
         candidate.tap()
         XCTAssertTrue(app.staticTexts["home.title"].waitForExistence(timeout: 10))
+        sleep(1) // Wait for NavigationStack pop animation to complete
     }
 }
 

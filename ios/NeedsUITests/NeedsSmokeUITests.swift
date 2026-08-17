@@ -128,6 +128,7 @@ final class NeedsSmokeUITests: XCTestCase {
         XCTAssertTrue(candidate.exists)
         candidate.tap()
         XCTAssertTrue(app.staticTexts["home.title"].waitForExistence(timeout: 10))
+        sleep(1) // Wait for NavigationStack pop animation to complete
     }
 
     private func addToothpasteByVoice() {
@@ -144,6 +145,7 @@ final class NeedsSmokeUITests: XCTestCase {
         XCTAssertTrue(sensodyne.exists)
         sensodyne.tap()
         XCTAssertTrue(app.staticTexts["home.title"].waitForExistence(timeout: 10))
+        sleep(1) // Wait for NavigationStack pop animation to complete
     }
 
     private func firstCandidate(in app: XCUIApplication, withLabel label: String? = nil) -> XCUIElement {
