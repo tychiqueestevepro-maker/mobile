@@ -19,9 +19,9 @@ final class NeedsSmokeUITests: XCTestCase {
 
         XCTAssertTrue(app.staticTexts["home.title"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.staticTexts["home.current_list"].waitForExistence(timeout: 10))
-        XCTAssertTrue(app.tabBars.buttons["Orders"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.tabBars.buttons["tab.orders"].waitForExistence(timeout: 10))
         
-        let settingsTab = app.tabBars.buttons["Settings"]
+        let settingsTab = app.tabBars.buttons["tab.settings"]
         XCTAssertTrue(settingsTab.waitForExistence(timeout: 10))
         settingsTab.tap()
         
@@ -52,7 +52,7 @@ final class NeedsSmokeUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Delivered"].waitForExistence(timeout: 10))
         let back = app.navigationBars.buttons.firstMatch
         if back.exists { back.tap() }
-        app.tabBars.buttons["Orders"].tap()
+        app.tabBars.buttons["tab.orders"].tap()
         let deliveredOrder = app.buttons.matching(
             NSPredicate(format: "label CONTAINS[c] %@", "Delivered")
         ).firstMatch
@@ -68,7 +68,7 @@ final class NeedsSmokeUITests: XCTestCase {
         ]
         app.launch()
         addFirstProduct(named: "I need toothpaste")
-        app.tabBars.buttons["Settings"].tap()
+        app.tabBars.buttons["tab.settings"].tap()
 
         XCTAssertTrue(app.switches["settings.reminder.toggle"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.datePickers["settings.reminder.time"].waitForExistence(timeout: 5))
@@ -121,9 +121,7 @@ final class NeedsSmokeUITests: XCTestCase {
         XCTAssertTrue(submitBtn.waitForExistence(timeout: 5))
         submitBtn.tap()
 
-        let candidate = app.buttons.matching(
-            NSPredicate(format: "identifier BEGINSWITH %@", "candidate.")
-        ).firstMatch
+        let candidate = firstCandidate(in: app)
         XCTAssertTrue(candidate.waitForExistence(timeout: 10))
         candidate.tap()
         XCTAssertTrue(app.staticTexts["home.title"].waitForExistence(timeout: 10))
@@ -136,11 +134,15 @@ final class NeedsSmokeUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["home.listening_label"].waitForExistence(timeout: 10))
         microphone.tap()
 
-        let sensodyne = app.buttons.matching(
-            NSPredicate(format: "label CONTAINS[c] %@", "Sensodyne")
-        ).firstMatch
+        let sensodyne = firstCandidate(in: app)
         XCTAssertTrue(sensodyne.waitForExistence(timeout: 10))
         sensodyne.tap()
         XCTAssertTrue(app.staticTexts["home.title"].waitForExistence(timeout: 10))
+    }
+
+    private func firstCandidate(in app: XCUIApplication) -> XCUIElement {
+        app.buttons
+            .matching(NSPredicate(format: "identifier BEGINSWITH %@", "candidate."))
+            .firstMatch
     }
 }

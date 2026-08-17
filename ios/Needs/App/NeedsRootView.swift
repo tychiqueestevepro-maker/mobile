@@ -41,19 +41,28 @@ private struct ReadyRootView: View {
                         model.router.navigate(to: .plus)
                     }
                     .tag(AppTab.home)
-                    .tabItem { Label("tab.home", systemImage: "house") }
+                    .tabItem {
+                        Label("tab.home", systemImage: "house")
+                            .accessibilityIdentifier("tab.home")
+                    }
                 }
 
                 if let ordersModel = model.ordersModel {
                     OrdersView(model: ordersModel)
                         .tag(AppTab.orders)
-                        .tabItem { Label("tab.orders", systemImage: "bag") }
+                        .tabItem {
+                            Label("tab.orders", systemImage: "bag")
+                                .accessibilityIdentifier("tab.orders")
+                        }
                 }
 
                 if let settingsModel = model.settingsModel {
                     SettingsView(model: settingsModel)
                         .tag(AppTab.settings)
-                        .tabItem { Label("tab.settings", systemImage: "gearshape") }
+                        .tabItem {
+                            Label("tab.settings", systemImage: "gearshape")
+                                .accessibilityIdentifier("tab.settings")
+                        }
                 }
             }
             .onChange(of: router.selectedTab) { _, tab in

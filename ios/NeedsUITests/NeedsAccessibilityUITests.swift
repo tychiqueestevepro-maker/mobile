@@ -47,13 +47,17 @@ final class NeedsAccessibilityUITests: XCTestCase {
         XCTAssertTrue(candidatesList.waitForExistence(timeout: 10),
                        "Candidates list container must have an accessibility identifier")
 
-        let candidate = app.buttons.matching(
-            NSPredicate(format: "identifier BEGINSWITH %@", "candidate.")
-        ).firstMatch
+        let candidate = firstCandidate(in: app)
         XCTAssertTrue(candidate.waitForExistence(timeout: 10),
                        "Each candidate card must have an identifier starting with 'candidate.'")
         XCTAssertFalse(candidate.label.isEmpty,
                         "Candidate card must compose a descriptive accessibility label for VoiceOver")
+    }
+
+    private func firstCandidate(in app: XCUIApplication) -> XCUIElement {
+        app.buttons
+            .matching(NSPredicate(format: "identifier BEGINSWITH %@", "candidate."))
+            .firstMatch
     }
 
     // MARK: - Checkout bar announces item count

@@ -55,11 +55,11 @@ struct ProductCard: View {
                     .stroke(NeedsTheme.separator, lineWidth: 1)
             }
             .contentShape(RoundedRectangle(cornerRadius: NeedsTheme.cardRadius, style: .continuous))
+            .accessibilityElement(children: .ignore)
         }
         .buttonStyle(ProductPressStyle())
         .disabled(!product.availability.isPurchasable)
         .opacity(product.availability.isPurchasable ? 1 : 0.55)
-        .accessibilityElement(children: .combine)
         .accessibilityLabel(accessibilityLabel)
         .accessibilityHint(product.availability.isPurchasable ? "Adds this product to your current list" : "Unavailable")
         .accessibilityIdentifier("candidate.\(product.id.uuidString)")
