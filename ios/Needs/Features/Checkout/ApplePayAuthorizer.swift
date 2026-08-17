@@ -22,7 +22,7 @@ final class PaymentAuthorizationContext {
 }
 
 @MainActor
-final class ApplePayAuthorizer: NSObject, PKPaymentAuthorizationControllerDelegate {
+final class ApplePayAuthorizer: NSObject, @preconcurrency PKPaymentAuthorizationControllerDelegate {
     private var continuation: CheckedContinuation<PaymentAuthorizationContext, Error>?
     private var authorizationCompletion: ((PKPaymentAuthorizationResult) -> Void)?
     private var controller: PKPaymentAuthorizationController?
@@ -56,37 +56,33 @@ final class ApplePayAuthorizer: NSObject, PKPaymentAuthorizationControllerDelega
         }
     }
 
-    nonisolated func paymentAuthorizationController(
+    func paymentAuthorizationController(
         _ controller: PKPaymentAuthorizationController,
         didAuthorizePayment payment: PKPayment,
         handler completion: @escaping (PKPaymentAuthorizationResult) -> Void
     ) {
-        MainActor.assumeIsolated {
-            guard let requestFactory else {
-                completion(PKPaymentAuthorizationResult(status: .failure, errors: nil))
-                return
-            }
-            authorizationCompletion = completion
-            let context = PaymentAuthorizationContext(payload: requestFactory.payload(from: payment.token)) { [self] success in
-                let status: PKPaymentAuthorizationStatus = success ? .success : .failure
-                authorizationCompletion?(PKPaymentAuthorizationResult(status: status, errors: nil))
-                authorizationCompletion = nil
-            }
-            finish(returning: context)
+        guard let requestFactory else {
+            completion(PKPaymentAuthorizationResult(status: .failure, errors: nil))
+            return
         }
+        authorizationCompletion = completion
+        let context = PaymentAuthorizationContext(payload: requestFactory.payload(from: payment.token)) { [self] success in
+            let status: PKPaymentAuthorizationStatus = success ? .success : .failure
+            authorizationCompletion?(PKPaymentAuthorizationResult(status: status, errors: nil))
+            authorizationCompletion = nil
+        }
+        finish(returning: context)
     }
 
-    nonisolated func paymentAuthorizationControllerDidFinish(_ controller: PKPaymentAuthorizationController) {
-        MainActor.assumeIsolated {
-            if continuation != nil { finish(throwing: CancellationError()) }
-            if let authorizationCompletion {
-                authorizationCompletion(PKPaymentAuthorizationResult(status: .failure, errors: nil))
-                self.authorizationCompletion = nil
-            }
-            controller.dismiss {}
-            self.controller = nil
-            requestFactory = nil
+    func paymentAuthorizationControllerDidFinish(_ controller: PKPaymentAuthorizationController) {
+        if continuation != nil { finish(throwing: CancellationError()) }
+        if let authorizationCompletion {
+            authorizationCompletion(PKPaymentAuthorizationResult(status: .failure, errors: nil))
+            self.authorizationCompletion = nil
         }
+        controller.dismiss {}
+        self.controller = nil
+        requestFactory = nil
     }
 
     private func finish(returning context: PaymentAuthorizationContext) {
