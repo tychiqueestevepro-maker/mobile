@@ -114,7 +114,7 @@ final class NeedsAccessibilityUITests: XCTestCase {
         XCTAssertTrue(candidate.waitForExistence(timeout: 10))
         candidate.tap()
         XCTAssertTrue(app.staticTexts["home.title"].waitForExistence(timeout: 10))
-        sleep(1) // Wait for NavigationStack pop animation to complete
+        sleep(2) // Wait for NavigationStack pop animation to complete
     }
 }
 

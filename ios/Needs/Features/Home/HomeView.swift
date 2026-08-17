@@ -95,6 +95,7 @@ struct HomeView: View {
 
                 if model.canSubmit && model.requestState != .listening {
                     Button {
+                        inputFocused = false
                         Task { await model.submit() }
                     } label: {
                         Image(systemName: "arrow.up")
