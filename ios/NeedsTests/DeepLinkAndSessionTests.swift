@@ -102,7 +102,7 @@ final class DeepLinkAndSessionTests: XCTestCase {
         XCTAssertNil(after, "Sign-out must clear the session")
     }
 
-    func testMockAuthRejectsInvalidEmailCode() async {
+    func testMockAuthRejectsInvalidEmailCode() async throws {
         let sessionStore = InMemorySessionStore()
         let auth = MockAuthService(sessionStore: sessionStore)
         try? await auth.sendEmailCode(to: "test@example.com")

@@ -51,7 +51,9 @@ final class ApplePayAuthorizer: NSObject, @preconcurrency PKPaymentAuthorization
             self.continuation = continuation
             controller.present { [weak self] presented in
                 guard !presented else { return }
-                self?.finish(throwing: AppError.unavailable("Payment sheet could not be presented"))
+                Task { @MainActor in
+                    self?.finish(throwing: AppError.unavailable("Payment sheet could not be presented"))
+                }
             }
         }
     }
