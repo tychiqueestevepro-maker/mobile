@@ -40,6 +40,8 @@ final class NeedsAppModel {
         if ProcessInfo.processInfo.arguments.contains("-ResetState") {
             try? await container.authService.signOut()
             defaults.removeObject(forKey: addressKey)
+            defaults.removeObject(forKey: "needs.notification-preferences.v1")
+            defaults.removeObject(forKey: "needs.product-memory.v1")
         }
 
         do {

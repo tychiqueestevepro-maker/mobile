@@ -103,7 +103,15 @@ final class NeedsSmokeUITests: XCTestCase {
         let input = app.textFields["home.input"]
         XCTAssertTrue(input.waitForExistence(timeout: 10))
         input.tap()
-        input.typeText(request + "\n")
+        input.typeText(request)
+        
+        // Use the keyboard's 'Search' button because typeText("\n") in vertical TextField inserts a newline instead of submitting
+        let searchButton = app.keyboards.buttons["Search"]
+        if searchButton.waitForExistence(timeout: 2) {
+            searchButton.tap()
+        } else {
+            app.buttons["home.submit"].tap()
+        }
 
         let candidate = app.buttons.matching(
             NSPredicate(format: "identifier BEGINSWITH %@", "candidate.")

@@ -94,7 +94,13 @@ final class NeedsAccessibilityUITests: XCTestCase {
         XCTAssertTrue(input.waitForExistence(timeout: 10))
         input.tap()
         input.typeText(text)
-        app.buttons["home.submit"].tap()
+        
+        let searchButton = app.keyboards.buttons["Search"]
+        if searchButton.waitForExistence(timeout: 2) {
+            searchButton.tap()
+        } else {
+            app.buttons["home.submit"].tap()
+        }
     }
 
     private func addFirstProduct(named request: String) {
