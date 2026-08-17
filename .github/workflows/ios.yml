@@ -55,6 +55,7 @@ jobs:
           CODE_SIGNING_IDENTITY=""
           ENTITLEMENTS_REQUIRED=NO
           CONFIGURATION_BUILD_DIR=build
+          SWIFT_ENABLE_EXPLICIT_MODULES=NO
       - name: Package IPA
         run: |
           mkdir -p Payload

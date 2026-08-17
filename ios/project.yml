@@ -10,12 +10,6 @@ packages:
   Supabase:
     url: https://github.com/supabase/supabase-swift.git
     exactVersion: 2.55.1
-  swift-concurrency-extras:
-    url: https://github.com/pointfreeco/swift-concurrency-extras.git
-    from: 1.0.0
-  xctest-dynamic-overlay:
-    url: https://github.com/pointfreeco/xctest-dynamic-overlay.git
-    from: 1.0.0
 settings:
   base:
     SWIFT_VERSION: "6.0"
@@ -23,7 +17,6 @@ settings:
     ENABLE_USER_SCRIPT_SANDBOXING: true
     DEAD_CODE_STRIPPING: true
     ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: true
-    SWIFT_ENABLE_EXPLICIT_MODULES: NO
     NEEDS_BACKEND_URL: ""
     NEEDS_PUBLISHABLE_KEY: ""
     NEEDS_MERCHANT_IDENTIFIER: ""
@@ -52,10 +45,6 @@ targets:
     dependencies:
       - package: Supabase
         product: Supabase
-      - package: swift-concurrency-extras
-        product: ConcurrencyExtras
-      - package: xctest-dynamic-overlay
-        product: IssueReporting
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.tychi.mobile.needs
