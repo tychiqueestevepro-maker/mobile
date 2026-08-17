@@ -122,7 +122,9 @@ async function completeServerOperation(
     p_response: response,
     p_succeeded: succeeded,
   });
-  if (result.error) throw new AppError(500, "operation_failed", "The operation could not be completed.");
+  if (result.error) {
+    throw new AppError(500, "operation_failed", "The operation could not be completed.");
+  }
 }
 
 async function parseNeedOperation(request: Request): Promise<unknown> {
@@ -437,7 +439,11 @@ async function processRetailerOrders(
       { orderId, retailerOrderId: retailerOrder.id, retailerId: retailerOrder.retailer_id },
     );
     if (!claim.started && claim.status === "processing") {
-      throw new AppError(409, "operation_in_progress", "The retailer order is already being submitted.");
+      throw new AppError(
+        409,
+        "operation_in_progress",
+        "The retailer order is already being submitted.",
+      );
     }
     if (!claim.started && claim.status === "completed") {
       const refreshed = unwrap(

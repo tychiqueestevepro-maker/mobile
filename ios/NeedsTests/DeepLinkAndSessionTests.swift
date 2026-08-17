@@ -81,6 +81,7 @@ final class DeepLinkAndSessionTests: XCTestCase {
     func testMockAuthRestoredSessionReturnsSavedSession() async throws {
         let sessionStore = InMemorySessionStore()
         let auth = MockAuthService(sessionStore: sessionStore)
+        try await auth.sendEmailCode(to: "test@example.com")
         let session = try await auth.verifyEmailCode(email: "test@example.com", code: "123456")
         let restored = try await auth.restoreSession()
         XCTAssertEqual(restored?.profile.email, session.profile.email)
@@ -96,6 +97,7 @@ final class DeepLinkAndSessionTests: XCTestCase {
     func testMockAuthSignOutClearsSession() async throws {
         let sessionStore = InMemorySessionStore()
         let auth = MockAuthService(sessionStore: sessionStore)
+        try await auth.sendEmailCode(to: "test@example.com")
         _ = try await auth.verifyEmailCode(email: "test@example.com", code: "123456")
         try await auth.signOut()
         let after = try await auth.restoreSession()

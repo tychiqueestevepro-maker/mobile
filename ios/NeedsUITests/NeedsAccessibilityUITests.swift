@@ -22,7 +22,7 @@ final class NeedsAccessibilityUITests: XCTestCase {
     // MARK: - Home screen accessibility labels
 
     func testHomeScreenAccessibilityLabelsPresent() {
-        app.launchArguments = ["-UITesting", "-ResetState", "-MockVoiceTranscript", "I need coffee", "-SkipOnboarding"]
+        app.launchArguments = ["-UITesting", "-MockVoiceTranscript", "I need coffee", "-SkipOnboarding"]
         app.launch()
 
         XCTAssertTrue(app.staticTexts["home.title"].waitForExistence(timeout: 3),
@@ -39,7 +39,7 @@ final class NeedsAccessibilityUITests: XCTestCase {
     // MARK: - Candidate card accessibility
 
     func testCandidateCardsAreAccessible() {
-        app.launchArguments = ["-UITesting", "-ResetState", "-MockVoiceTranscript", "I need toothpaste", "-SkipOnboarding"]
+        app.launchArguments = ["-UITesting", "-MockVoiceTranscript", "I need toothpaste", "-SkipOnboarding"]
         app.launch()
         submitRequest("I need toothpaste")
 
@@ -59,7 +59,7 @@ final class NeedsAccessibilityUITests: XCTestCase {
     // MARK: - Checkout bar announces item count
 
     func testCheckoutBarAnnouncesItemCountAndTotal() {
-        app.launchArguments = ["-UITesting", "-ResetState", "-MockVoiceTranscript", "I need coffee", "-SkipOnboarding"]
+        app.launchArguments = ["-UITesting", "-MockVoiceTranscript", "I need coffee", "-SkipOnboarding"]
         app.launch()
         addFirstProduct(named: "I need coffee")
 

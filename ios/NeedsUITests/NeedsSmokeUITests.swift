@@ -27,7 +27,7 @@ final class NeedsSmokeUITests: XCTestCase {
         app.terminate()
         app = XCUIApplication()
         app.launchArguments = [
-            "-UITesting", "-ResetState", "-SkipOnboarding",
+            "-UITesting", "-SkipOnboarding",
             "-MockVoiceTranscript", "I need toothpaste"
         ]
         app.launch()
@@ -56,7 +56,7 @@ final class NeedsSmokeUITests: XCTestCase {
         app.terminate()
         app = XCUIApplication()
         app.launchArguments = [
-            "-UITesting", "-ResetState", "-SkipOnboarding",
+            "-UITesting", "-SkipOnboarding",
             "-MockVoiceTranscript", "I need toothpaste"
         ]
         app.launch()
@@ -73,7 +73,7 @@ final class NeedsSmokeUITests: XCTestCase {
         app.terminate()
         app = XCUIApplication()
         app.launchArguments = [
-            "-UITesting", "-ResetState", "-SkipOnboarding",
+            "-UITesting", "-SkipOnboarding",
             "-MockVoiceTranscript", "I need toothpaste"
         ]
         app.launch()
