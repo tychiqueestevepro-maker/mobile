@@ -92,7 +92,9 @@ public final class DependencyContainer {
             intentParsingService: DeterministicIntentParsingService(),
             productProvider: MockProductProvider(),
             retailOrderProvider: MockRetailOrderProvider(),
-            deliveryProvider: MockDeliveryProvider(),
+            deliveryProvider: MockDeliveryProvider(
+                transitionDelays: ProcessInfo.processInfo.arguments.contains("-UITesting") ? [0.2, 0.2, 0.2, 0.2, 0.2] : [2, 2, 3, 3, 3]
+            ),
             paymentService: MockPaymentService(),
             checkoutService: MockCheckoutService(),
             preferenceService: DeterministicPreferenceService(persistence: persistentStorage ? .userDefaults(suiteName: nil) : .ephemeral),
