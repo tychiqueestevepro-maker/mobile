@@ -22,9 +22,8 @@ final class NeedsAccessibilityUITests: XCTestCase {
     // MARK: - Home screen accessibility labels
 
     func testHomeScreenAccessibilityLabelsPresent() {
-        app.launchArguments = ["-UITesting", "-ResetState", "-MockVoiceTranscript", "I need coffee"]
+        app.launchArguments = ["-UITesting", "-ResetState", "-MockVoiceTranscript", "I need coffee", "-SkipOnboarding"]
         app.launch()
-        completeOnboarding()
 
         XCTAssertTrue(app.staticTexts["home.title"].waitForExistence(timeout: 3),
                        "Home title must be reachable by accessibility identifier")
@@ -40,9 +39,8 @@ final class NeedsAccessibilityUITests: XCTestCase {
     // MARK: - Candidate card accessibility
 
     func testCandidateCardsAreAccessible() {
-        app.launchArguments = ["-UITesting", "-ResetState", "-MockVoiceTranscript", "I need toothpaste"]
+        app.launchArguments = ["-UITesting", "-ResetState", "-MockVoiceTranscript", "I need toothpaste", "-SkipOnboarding"]
         app.launch()
-        completeOnboarding()
         submitRequest("I need toothpaste")
 
         let candidatesList = app.otherElements["candidates.list"]
@@ -61,9 +59,8 @@ final class NeedsAccessibilityUITests: XCTestCase {
     // MARK: - Checkout bar announces item count
 
     func testCheckoutBarAnnouncesItemCountAndTotal() {
-        app.launchArguments = ["-UITesting", "-ResetState", "-MockVoiceTranscript", "I need coffee"]
+        app.launchArguments = ["-UITesting", "-ResetState", "-MockVoiceTranscript", "I need coffee", "-SkipOnboarding"]
         app.launch()
-        completeOnboarding()
         addFirstProduct(named: "I need coffee")
 
         let checkoutButton = app.buttons["home.checkout"]

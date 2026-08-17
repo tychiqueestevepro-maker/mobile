@@ -69,7 +69,9 @@ public final class DependencyContainer {
     }
 
     public static func development(persistentStorage: Bool = true) -> DependencyContainer {
-        let sessionStore: any SessionStore = persistentStorage ? KeychainSessionStore() : InMemorySessionStore()
+        let hasSkipOnboarding = ProcessInfo.processInfo.arguments.contains("-SkipOnboarding")
+        let defaultSession = hasSkipOnboarding ? UserSession(accessToken: "mock-token", refreshToken: "mock-refresh", expiresAt: .now.addingTimeInterval(3600), profile: .demo) : nil
+        let sessionStore: any SessionStore = persistentStorage ? KeychainSessionStore() : InMemorySessionStore(session: defaultSession)
         let listAndOutboxStore: any ActiveListAndOutboxStore
 
         if persistentStorage, let container = try? makeModelContainer() {

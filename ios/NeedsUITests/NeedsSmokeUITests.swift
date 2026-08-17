@@ -24,7 +24,13 @@ final class NeedsSmokeUITests: XCTestCase {
     }
 
     func testNeedSelectionPersistsInCurrentListAndChecksOut() {
-        completeOnboarding()
+        app.terminate()
+        app = XCUIApplication()
+        app.launchArguments = [
+            "-UITesting", "-ResetState", "-SkipOnboarding",
+            "-MockVoiceTranscript", "I need toothpaste"
+        ]
+        app.launch()
         addFirstProduct(named: "I need strong black trash bags")
         addToothpasteByVoice()
 
@@ -47,7 +53,13 @@ final class NeedsSmokeUITests: XCTestCase {
     }
 
     func testReminderAndLearnedPreferenceControlsAreReachable() {
-        completeOnboarding()
+        app.terminate()
+        app = XCUIApplication()
+        app.launchArguments = [
+            "-UITesting", "-ResetState", "-SkipOnboarding",
+            "-MockVoiceTranscript", "I need toothpaste"
+        ]
+        app.launch()
         addFirstProduct(named: "I need toothpaste")
         app.tabBars.buttons["Settings"].tap()
 
@@ -61,11 +73,10 @@ final class NeedsSmokeUITests: XCTestCase {
         app.terminate()
         app = XCUIApplication()
         app.launchArguments = [
-            "-UITesting", "-ResetState",
+            "-UITesting", "-ResetState", "-SkipOnboarding",
             "-MockVoiceTranscript", "I need toothpaste"
         ]
         app.launch()
-        completeOnboarding()
 
         addToothpasteByVoice()
         XCTAssertTrue(app.otherElements["home.list.items"].waitForExistence(timeout: 4))
