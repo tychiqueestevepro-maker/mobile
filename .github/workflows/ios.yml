@@ -28,7 +28,7 @@ jobs:
           xcodebuild
           -project ios/Needs.xcodeproj
           -scheme Needs
-          -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=latest'
+          -destination 'platform=iOS Simulator,name=iPhone 17 Pro,OS=latest'
           -resultBundlePath test-results/Needs.xcresult
           CODE_SIGNING_ALLOWED=NO
           test
