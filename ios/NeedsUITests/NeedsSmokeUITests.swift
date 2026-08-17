@@ -43,12 +43,26 @@ final class NeedsSmokeUITests: XCTestCase {
         addToothpasteByVoice()
 
         XCTAssertTrue(app.otherElements["home.list.items"].waitForExistence(timeout: 10))
-        XCTAssertTrue(app.buttons["home.checkout"].waitForExistence(timeout: 10))
-        app.buttons["home.checkout"].tap()
+        let checkoutBtn = app.buttons["home.checkout"]
+        XCTAssertTrue(checkoutBtn.waitForExistence(timeout: 10))
+        
+        // Ensure the button is enabled and hittable before tapping
+        let isEnabled = checkoutBtn.isEnabled
+        if !isEnabled {
+            sleep(1) // Wait a bit if it's still processing
+        }
+        
+        if !checkoutBtn.isHittable {
+            app.swipeUp()
+        }
+        checkoutBtn.tap()
         sleep(2) // Wait for NavigationStack push animation
 
         let payButton = app.buttons["checkout.pay"]
-        XCTAssertTrue(payButton.waitForExistence(timeout: 10))
+        if !payButton.waitForExistence(timeout: 10) {
+            print("[UITEST][DEBUG] payButton missing. Hierarchy:\n\(app.debugDescription)")
+        }
+        XCTAssertTrue(payButton.exists)
         if !payButton.isHittable {
             app.swipeUp()
         }
