@@ -630,6 +630,7 @@ async function confirmPaymentOperation(request: Request): Promise<unknown> {
     currency: checkout.currency,
     paymentToken: typeof body.payment_token === "string" ? body.payment_token : undefined,
     testOutcome: outcome,
+    idempotencyKey: idempotencyKey,
   });
   const confirmation = unwrap(
     await context.userClient.rpc("confirm_checkout_payment", {

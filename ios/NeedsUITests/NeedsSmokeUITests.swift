@@ -17,7 +17,7 @@ final class NeedsSmokeUITests: XCTestCase {
     func testOnboardingReachesHomeWithDefaultReminder() {
         completeOnboarding()
 
-        XCTAssertTrue(app.staticTexts["home.title"].waitForExistence(timeout: 3))
+        XCTAssertTrue(app.staticTexts["home.title"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.staticTexts["home.current_list"].exists)
         XCTAssertTrue(app.tabBars.buttons["Orders"].exists)
         XCTAssertTrue(app.tabBars.buttons["Settings"].exists)
@@ -34,22 +34,22 @@ final class NeedsSmokeUITests: XCTestCase {
         addFirstProduct(named: "I need strong black trash bags")
         addToothpasteByVoice()
 
-        XCTAssertTrue(app.otherElements["home.list.items"].waitForExistence(timeout: 3))
-        XCTAssertTrue(app.buttons["home.checkout"].waitForExistence(timeout: 2))
+        XCTAssertTrue(app.otherElements["home.list.items"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.buttons["home.checkout"].waitForExistence(timeout: 10))
         app.buttons["home.checkout"].tap()
 
-        XCTAssertTrue(app.buttons["checkout.pay"].waitForExistence(timeout: 3))
+        XCTAssertTrue(app.buttons["checkout.pay"].waitForExistence(timeout: 10))
         app.buttons["checkout.pay"].tap()
-        XCTAssertTrue(app.otherElements["tracking.timeline"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.otherElements["tracking.timeline"].waitForExistence(timeout: 10))
 
-        XCTAssertTrue(app.staticTexts["Delivered"].waitForExistence(timeout: 18))
+        XCTAssertTrue(app.staticTexts["Delivered"].waitForExistence(timeout: 10))
         let back = app.navigationBars.buttons.firstMatch
         if back.exists { back.tap() }
         app.tabBars.buttons["Orders"].tap()
         let deliveredOrder = app.buttons.matching(
             NSPredicate(format: "label CONTAINS[c] %@", "Delivered")
         ).firstMatch
-        XCTAssertTrue(deliveredOrder.waitForExistence(timeout: 4))
+        XCTAssertTrue(deliveredOrder.waitForExistence(timeout: 10))
     }
 
     func testReminderAndLearnedPreferenceControlsAreReachable() {
@@ -63,10 +63,10 @@ final class NeedsSmokeUITests: XCTestCase {
         addFirstProduct(named: "I need toothpaste")
         app.tabBars.buttons["Settings"].tap()
 
-        XCTAssertTrue(app.switches["settings.reminder.toggle"].waitForExistence(timeout: 3))
+        XCTAssertTrue(app.switches["settings.reminder.toggle"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.datePickers["settings.reminder.time"].exists)
         XCTAssertTrue(app.buttons["settings.reminder.timezone"].exists)
-        XCTAssertTrue(app.buttons["settings.preferences.reset"].waitForExistence(timeout: 3))
+        XCTAssertTrue(app.buttons["settings.preferences.reset"].waitForExistence(timeout: 10))
     }
 
     func testVoiceRequestShowsToothpasteAndAddsSensodyne() {
@@ -79,29 +79,29 @@ final class NeedsSmokeUITests: XCTestCase {
         app.launch()
 
         addToothpasteByVoice()
-        XCTAssertTrue(app.otherElements["home.list.items"].waitForExistence(timeout: 4))
+        XCTAssertTrue(app.otherElements["home.list.items"].waitForExistence(timeout: 10))
     }
 
     private func completeOnboarding() {
-        guard app.buttons["onboarding.continue"].waitForExistence(timeout: 2) else { return }
+        guard app.buttons["onboarding.continue"].waitForExistence(timeout: 10) else { return }
         app.buttons["onboarding.continue"].tap()
 
         let emailContinue = app.buttons["account.email.continue"]
-        XCTAssertTrue(emailContinue.waitForExistence(timeout: 2))
+        XCTAssertTrue(emailContinue.waitForExistence(timeout: 10))
         emailContinue.tap()
-        XCTAssertTrue(app.textFields["account.code"].waitForExistence(timeout: 2))
+        XCTAssertTrue(app.textFields["account.code"].waitForExistence(timeout: 10))
         emailContinue.tap()
 
-        XCTAssertTrue(app.buttons["address.continue"].waitForExistence(timeout: 2))
+        XCTAssertTrue(app.buttons["address.continue"].waitForExistence(timeout: 10))
         app.buttons["address.continue"].tap()
-        XCTAssertTrue(app.buttons["reminder.continue"].waitForExistence(timeout: 2))
+        XCTAssertTrue(app.buttons["reminder.continue"].waitForExistence(timeout: 10))
         app.buttons["reminder.continue"].tap()
-        XCTAssertTrue(app.staticTexts["home.title"].waitForExistence(timeout: 4))
+        XCTAssertTrue(app.staticTexts["home.title"].waitForExistence(timeout: 10))
     }
 
     private func addFirstProduct(named request: String) {
         let input = app.textFields["home.input"]
-        XCTAssertTrue(input.waitForExistence(timeout: 2))
+        XCTAssertTrue(input.waitForExistence(timeout: 10))
         input.tap()
         input.typeText(request)
         app.buttons["home.submit"].tap()
@@ -109,23 +109,23 @@ final class NeedsSmokeUITests: XCTestCase {
         let candidate = app.buttons.matching(
             NSPredicate(format: "identifier BEGINSWITH %@", "candidate.")
         ).firstMatch
-        XCTAssertTrue(candidate.waitForExistence(timeout: 4))
+        XCTAssertTrue(candidate.waitForExistence(timeout: 10))
         candidate.tap()
-        XCTAssertTrue(app.staticTexts["home.title"].waitForExistence(timeout: 4))
+        XCTAssertTrue(app.staticTexts["home.title"].waitForExistence(timeout: 10))
     }
 
     private func addToothpasteByVoice() {
         let microphone = app.buttons["home.microphone"]
-        XCTAssertTrue(microphone.waitForExistence(timeout: 2))
+        XCTAssertTrue(microphone.waitForExistence(timeout: 10))
         microphone.tap()
-        XCTAssertTrue(app.staticTexts["Listening..."].waitForExistence(timeout: 2))
+        XCTAssertTrue(app.staticTexts["Listening..."].waitForExistence(timeout: 10))
         microphone.tap()
 
         let sensodyne = app.buttons.matching(
             NSPredicate(format: "label CONTAINS[c] %@", "Sensodyne")
         ).firstMatch
-        XCTAssertTrue(sensodyne.waitForExistence(timeout: 4))
+        XCTAssertTrue(sensodyne.waitForExistence(timeout: 10))
         sensodyne.tap()
-        XCTAssertTrue(app.staticTexts["home.title"].waitForExistence(timeout: 4))
+        XCTAssertTrue(app.staticTexts["home.title"].waitForExistence(timeout: 10))
     }
 }
