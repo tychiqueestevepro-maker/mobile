@@ -1,0 +1,102 @@
+name: Needs
+options:
+  bundleIdPrefix: com.tychi.mobile
+  deploymentTarget:
+    iOS: "17.0"
+  xcodeVersion: "26.6"
+  generateEmptyDirectories: true
+  createIntermediateGroups: true
+packages:
+  Supabase:
+    url: https://github.com/supabase/supabase-swift.git
+    exactVersion: 2.54.1
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    ENABLE_USER_SCRIPT_SANDBOXING: true
+    DEAD_CODE_STRIPPING: true
+    ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: true
+    NEEDS_BACKEND_URL: ""
+    NEEDS_PUBLISHABLE_KEY: ""
+    NEEDS_MERCHANT_IDENTIFIER: ""
+  configs:
+    Debug:
+      APS_ENVIRONMENT: development
+      NEEDS_ENVIRONMENT: development
+    Release:
+      APS_ENVIRONMENT: production
+      NEEDS_ENVIRONMENT: production
+targets:
+  Needs:
+    type: application
+    platform: iOS
+    sources:
+      - path: Needs
+        excludes:
+          - "**/*.md"
+          - "Resources/**"
+    resources:
+      - path: Needs/Resources
+        excludes:
+          - Info.plist
+          - Needs.entitlements
+          - Needs.storekit
+    dependencies:
+      - package: Supabase
+        product: Supabase
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.tychi.mobile.needs
+        PRODUCT_NAME: Needs
+        INFOPLIST_FILE: Needs/Resources/Info.plist
+        CODE_SIGN_ENTITLEMENTS: Needs/Resources/Needs.entitlements
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        CURRENT_PROJECT_VERSION: 1
+        MARKETING_VERSION: 1.0
+        TARGETED_DEVICE_FAMILY: "1"
+        SUPPORTS_MACCATALYST: false
+        GENERATE_INFOPLIST_FILE: false
+  NeedsTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: NeedsTests
+    dependencies:
+      - target: Needs
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.tychi.mobile.needs.tests
+        GENERATE_INFOPLIST_FILE: true
+  NeedsUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: NeedsUITests
+    dependencies:
+      - target: Needs
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.tychi.mobile.needs.uitests
+        GENERATE_INFOPLIST_FILE: true
+schemes:
+  Needs:
+    build:
+      targets:
+        Needs: all
+        NeedsTests: [test]
+        NeedsUITests: [test]
+    run:
+      config: Debug
+      storeKitConfiguration: Needs/Resources/Needs.storekit
+      environmentVariables:
+        NEEDS_ENVIRONMENT: development
+    test:
+      config: Debug
+      gatherCoverageData: true
+      targets:
+        - name: NeedsTests
+          parallelizable: true
+        - name: NeedsUITests
+          parallelizable: false

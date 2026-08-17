@@ -1,0 +1,65 @@
+name: iOS
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: macos-26
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: "26.6"
+      - name: Install XcodeGen
+        run: brew install xcodegen
+      - name: Generate project
+        run: xcodegen generate --spec ios/project.yml
+      - name: Prepare test output
+        run: mkdir -p test-results
+      - name: Build and test
+        run: >-
+          xcodebuild
+          -project ios/Needs.xcodeproj
+          -scheme Needs
+          -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=latest'
+          -resultBundlePath test-results/Needs.xcresult
+          CODE_SIGNING_ALLOWED=NO
+          test
+      - name: Upload test result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Needs-xcresult
+          path: test-results/Needs.xcresult
+          if-no-files-found: ignore
+      - name: Verify consumer copy
+        run: node scripts/check-consumer-copy.mjs
+      - name: Build for device (Unsigned IPA)
+        run: >-
+          xcodebuild build
+          -project ios/Needs.xcodeproj
+          -scheme Needs
+          -destination 'generic/platform=iOS'
+          -configuration Release
+          CODE_SIGNING_ALLOWED=NO
+          CODE_SIGNING_REQUIRED=NO
+          CODE_SIGNING_IDENTITY=""
+          ENTITLEMENTS_REQUIRED=NO
+          CONFIGURATION_BUILD_DIR=build
+      - name: Package IPA
+        run: |
+          mkdir -p Payload
+          mv build/Needs.app Payload/
+          zip -r Needs.ipa Payload
+      - name: Upload IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Needs-Unsigned-IPA
+          path: Needs.ipa

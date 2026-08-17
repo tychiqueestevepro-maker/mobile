@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleDevelopmentRegion</key>
+    <string>en</string>
+    <key>CFBundleDisplayName</key>
+    <string>Needs</string>
+    <key>CFBundleExecutable</key>
+    <string>$(EXECUTABLE_NAME)</string>
+    <key>CFBundleIdentifier</key>
+    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    <key>CFBundleName</key>
+    <string>$(PRODUCT_NAME)</string>
+    <key>CFBundlePackageType</key>
+    <string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
+    <key>CFBundleShortVersionString</key>
+    <string>$(MARKETING_VERSION)</string>
+    <key>CFBundleVersion</key>
+    <string>$(CURRENT_PROJECT_VERSION)</string>
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleURLName</key>
+            <string>com.tychi.mobile.needs.links</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>app</string>
+            </array>
+        </dict>
+    </array>
+    <key>LSRequiresIPhoneOS</key>
+    <true/>
+    <key>NeedsEnvironment</key>
+    <string>$(NEEDS_ENVIRONMENT)</string>
+    <key>NeedsBackendURL</key>
+    <string>$(NEEDS_BACKEND_URL)</string>
+    <key>NeedsPublishableKey</key>
+    <string>$(NEEDS_PUBLISHABLE_KEY)</string>
+    <key>NeedsMerchantIdentifier</key>
+    <string>$(NEEDS_MERCHANT_IDENTIFIER)</string>
+    <key>NeedsPlusProductIdentifier</key>
+    <string>com.tychi.mobile.plus.monthly</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Needs uses the microphone to add an item by voice.</string>
+    <key>NSSpeechRecognitionUsageDescription</key>
+    <string>Needs turns what you say into an item for your list.</string>
+    <key>NSUserNotificationsUsageDescription</key>
+    <string>Needs can remind you to review your current list.</string>
+    <key>UIApplicationSceneManifest</key>
+    <dict>
+        <key>UIApplicationSupportsMultipleScenes</key>
+        <false/>
+    </dict>
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>remote-notification</string>
+    </array>
+    <key>UILaunchScreen</key>
+    <dict>
+        <key>UIColorName</key>
+        <string>LaunchBackground</string>
+    </dict>
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+    </array>
+</dict>
+</plist>

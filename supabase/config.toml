@@ -1,0 +1,87 @@
+project_id = "needs"
+
+[api]
+enabled = true
+port = 55321
+schemas = ["public", "storage", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 55322
+shadow_port = 55320
+major_version = 15
+
+[db.seed]
+enabled = true
+sql_paths = ["./seed.sql"]
+
+[studio]
+enabled = true
+port = 55323
+
+[inbucket]
+enabled = true
+port = 55324
+
+[auth]
+enabled = true
+site_url = "app://auth-callback"
+additional_redirect_urls = ["http://127.0.0.1:54321/auth/v1/callback", "app://auth-callback"]
+jwt_expiry = 3600
+enable_refresh_token_rotation = true
+
+[auth.email]
+enable_signup = true
+double_confirm_changes = true
+enable_confirmations = false
+otp_length = 6
+otp_expiry = 900
+
+[edge_runtime]
+enabled = true
+policy = "per_worker"
+
+[functions.parse-need]
+verify_jwt = true
+[functions.search-products]
+verify_jwt = true
+[functions.confirm-selection]
+verify_jwt = true
+[functions.reject-candidate]
+verify_jwt = true
+[functions.preferences-summary]
+verify_jwt = true
+[functions.remove-preference]
+verify_jwt = true
+[functions.reset-product-memory]
+verify_jwt = true
+[functions.update-active-list]
+verify_jwt = true
+[functions.create-checkout]
+verify_jwt = true
+[functions.confirm-payment]
+verify_jwt = true
+[functions.register-push-device]
+verify_jwt = true
+[functions.update-notification-preferences]
+verify_jwt = true
+[functions.delete-account]
+verify_jwt = true
+
+[functions.optimize-cart]
+verify_jwt = false
+[functions.create-retail-order]
+verify_jwt = false
+[functions.delivery-quote]
+verify_jwt = false
+[functions.create-delivery]
+verify_jwt = false
+[functions.delivery-webhook]
+verify_jwt = false
+[functions.sync-subscription]
+verify_jwt = true
+[functions.app-store-webhook]
+verify_jwt = false
+[functions.dispatch-daily-reminders]
+verify_jwt = false

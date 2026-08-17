@@ -1,0 +1,45 @@
+name: Backend
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - name: Start local stack
+        run: supabase start
+      - name: Reset database
+        run: supabase db reset
+      - name: Test database invariants and RLS
+        run: supabase test db supabase/tests/database
+      - name: Check formatting
+        run: deno fmt --check supabase/functions
+      - name: Lint functions
+        run: deno lint --config supabase/functions/deno.json supabase/functions
+      - name: Type-check functions
+        run: >-
+          deno check
+          --config supabase/functions/deno.json
+          supabase/functions/_shared/*.ts
+          supabase/functions/*/index.ts
+      - name: Test functions
+        run: deno test --config supabase/functions/deno.json --allow-env supabase/functions/tests
+      - name: Verify consumer copy
+        run: node scripts/check-consumer-copy.mjs
+      - name: Stop local stack
+        if: always()
+        run: supabase stop --no-backup

@@ -1,0 +1,40 @@
+# Apple / Xcode
+DerivedData/
+*.xcuserstate
+xcuserdata/
+*.xccheckout
+*.moved-aside
+.build/
+ios/Needs.xcodeproj/
+
+# Swift Package Manager
+.swiftpm/
+Package.resolved
+!ios/Package.resolved
+
+# Supabase / Deno
+supabase/.branches/
+supabase/.temp/
+supabase/functions/.env
+supabase/functions/.env.local
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+Configuration.swift
+*.p8
+*.p12
+*.cer
+*.mobileprovision
+
+# Editors and operating systems
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Test and tooling output
+coverage/
+test-results/
+*.log

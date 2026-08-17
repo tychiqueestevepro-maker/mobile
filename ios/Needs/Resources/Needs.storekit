@@ -1,0 +1,57 @@
+{
+  "identifier" : "6EDCB249-7DA1-4AE1-91AE-4CF829B5E7B3",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+
+  ],
+  "settings" : {
+    "_applicationInternalID" : "needs-local",
+    "_developerTeamID" : ""
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "D9D4A476-6C9E-49E5-A18F-986049378A6D",
+      "localizations" : [
+        {
+          "description" : "Smarter combinations and remembered preferences.",
+          "displayName" : "Needs Plus",
+          "locale" : "en_US"
+        }
+      ],
+      "name" : "Needs Plus",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "9.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "8FC07698-459C-4D17-BD84-0138E9665407",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Smarter combinations and remembered preferences.",
+              "displayName" : "Plus Monthly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.tychi.mobile.plus.monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Plus Monthly",
+          "subscriptionGroupID" : "D9D4A476-6C9E-49E5-A18F-986049378A6D",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}
