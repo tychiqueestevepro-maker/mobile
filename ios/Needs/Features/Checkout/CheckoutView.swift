@@ -117,11 +117,9 @@ struct CheckoutView: View {
 
                 VStack(spacing: NeedsSpacing.small) {
                     if ProcessInfo.processInfo.arguments.contains("-UITesting") {
-                        Button("Pay with Apple Pay") {
+                        PrimaryButton(title: "Pay with Apple Pay") {
                             Task { await model.pay() }
                         }
-                        .frame(height: 52)
-                        .needsButton(style: .primary)
                         .disabled(model.isBusy || !session.unavailableItemIDs.isEmpty)
                         .opacity(model.isBusy ? 0.6 : 1)
                         .accessibilityIdentifier("checkout.pay")
