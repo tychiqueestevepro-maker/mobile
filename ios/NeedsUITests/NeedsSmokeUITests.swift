@@ -23,6 +23,7 @@ final class NeedsSmokeUITests: XCTestCase {
         
         let settingsTab = app.tabBars.buttons["tab.settings"]
         XCTAssertTrue(settingsTab.waitForExistence(timeout: 10))
+        sleep(2) // Wait for transition to home screen to complete
         settingsTab.tap()
         
         let reminderToggle = app.switches["settings.reminder.toggle"]
@@ -53,7 +54,7 @@ final class NeedsSmokeUITests: XCTestCase {
         }
         payButton.tap()
         
-        let timeline = app.otherElements["tracking.timeline"]
+        let timeline = app.descendants(matching: .any)["tracking.timeline"].firstMatch
         if !timeline.waitForExistence(timeout: 10) {
             print("[UITEST][DEBUG] Checkout flow failed. Hierarchy:\n\(app.debugDescription)")
         }
