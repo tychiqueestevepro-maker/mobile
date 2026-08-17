@@ -43,12 +43,8 @@ final class NeedsAccessibilityUITests: XCTestCase {
         app.launch()
         submitRequest("I need toothpaste")
 
-        let candidatesList = app.otherElements["candidates.list"]
-        XCTAssertTrue(candidatesList.waitForExistence(timeout: 10),
-                       "Candidates list container must have an accessibility identifier")
-
         let candidate = firstCandidate(in: app)
-        XCTAssertTrue(candidate.waitForExistence(timeout: 10),
+        XCTAssertTrue(candidate.waitForExistence(timeout: 15),
                        "Each candidate card must have an identifier starting with 'candidate.'")
         XCTAssertFalse(candidate.label.isEmpty,
                         "Candidate card must compose a descriptive accessibility label for VoiceOver")

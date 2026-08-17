@@ -83,7 +83,6 @@ struct CandidateSelectionView: View {
                 }
             }
             .accessibilityIdentifier("candidates.list")
-            .accessibilityElement(children: .contain)
         case .offline:
             StateMessageView(
                 systemImage: "wifi.slash",
