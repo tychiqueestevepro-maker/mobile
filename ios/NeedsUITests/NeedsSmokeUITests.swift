@@ -134,15 +134,19 @@ final class NeedsSmokeUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["home.listening_label"].waitForExistence(timeout: 10))
         microphone.tap()
 
-        let sensodyne = firstCandidate(in: app)
+        let sensodyne = firstCandidate(in: app, withLabel: "Sensodyne")
         XCTAssertTrue(sensodyne.waitForExistence(timeout: 10))
         sensodyne.tap()
         XCTAssertTrue(app.staticTexts["home.title"].waitForExistence(timeout: 10))
     }
 
-    private func firstCandidate(in app: XCUIApplication) -> XCUIElement {
-        app.buttons
-            .matching(NSPredicate(format: "identifier BEGINSWITH %@", "candidate."))
-            .firstMatch
+    private func firstCandidate(in app: XCUIApplication, withLabel label: String? = nil) -> XCUIElement {
+        let predicate: NSPredicate
+        if let label {
+            predicate = NSPredicate(format: "identifier BEGINSWITH %@ AND label CONTAINS[c] %@", "candidate.", label)
+        } else {
+            predicate = NSPredicate(format: "identifier BEGINSWITH %@", "candidate.")
+        }
+        return app.buttons.matching(predicate).firstMatch
     }
 }
