@@ -44,10 +44,12 @@ final class NeedsSmokeUITests: XCTestCase {
         XCTAssertTrue(app.otherElements["home.list.items"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.buttons["home.checkout"].waitForExistence(timeout: 10))
         app.buttons["home.checkout"].tap()
+        sleep(2) // Wait for NavigationStack push animation
 
         XCTAssertTrue(app.buttons["checkout.pay"].waitForExistence(timeout: 10))
         app.buttons["checkout.pay"].tap()
         XCTAssertTrue(app.otherElements["tracking.timeline"].waitForExistence(timeout: 10))
+        sleep(2) // Wait for NavigationStack push animation
 
         XCTAssertTrue(app.staticTexts["Delivered"].waitForExistence(timeout: 10))
         let back = app.navigationBars.buttons.firstMatch
