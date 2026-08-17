@@ -838,7 +838,7 @@ as $$
            e.currency, e.memory_epoch
     from entries e where e.dimension not like 'price:%'
   ), price_groups as (
-    select min(e.id) id, e.user_id, e.category, e.dimension, 'typical'::text value_key,
+    select min(e.id::text)::uuid id, e.user_id, e.category, e.dimension, 'typical'::text value_key,
            round(sum(e.score), 4) score, sum(e.negative_count)::integer negative_count,
            max(e.currency) currency, e.memory_epoch
     from entries e where e.dimension like 'price:%'

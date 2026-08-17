@@ -1,6 +1,12 @@
 import XCTest
 @testable import Needs
 
+// Actor wrapper so Swift 6 allows mutation from concurrent closures.
+private actor Counter {
+    private(set) var value = 0
+    func increment() { value += 1 }
+}
+
 final class OfflineOutboxTests: XCTestCase {
     private let userID = UUID(uuidString: "30000000-0000-0000-0000-000000000040")!
     private let storeID = MockCatalog.storeAID
@@ -29,9 +35,9 @@ final class OfflineOutboxTests: XCTestCase {
 
     func testOutboxReplayDrainsSuccessfulOperations() async throws {
         let store = InMemoryActiveListStore()
-        var sentCount = 0
+        let counter = Counter()
         let service = OutboxSyncService(store: store) { _, _ in
-            sentCount += 1
+            await counter.increment()
         }
 
         let payload = BackendOutboxPayload.confirmSelection(candidateID: UUID(), quantity: 1)
@@ -45,6 +51,7 @@ final class OfflineOutboxTests: XCTestCase {
 
         await service.replay(for: userID)
         let remaining = try await store.pending(for: userID)
+        let sentCount = await counter.value
         XCTAssertEqual(sentCount, 1, "Sender must be called once")
         XCTAssertTrue(remaining.isEmpty, "Successful operations must be purged")
     }
