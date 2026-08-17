@@ -44,6 +44,11 @@ final class CandidateSelectionViewModel {
         errorMessage = nil
         do {
             let results = Array(try await search(intent).prefix(3))
+            if ProcessInfo.processInfo.arguments.contains("-UITesting") {
+                print("[UITEST][CANDIDATES] request=\"\(intent.normalizedQuery)\"")
+                print("[UITEST][CANDIDATES] provider returned count=\(results.count)")
+                print("[UITEST][CANDIDATES] ids=[\(results.map { "\"\($0.id.uuidString)\"" }.joined(separator: ", "))]")
+            }
             candidates = results.isEmpty ? .empty : .loaded(results)
         } catch let error as AppError where error == .offline {
             candidates = .offline(nil)

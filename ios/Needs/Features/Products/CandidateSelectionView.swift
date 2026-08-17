@@ -72,6 +72,7 @@ struct CandidateSelectionView: View {
                     .accessibilityLabel(card.accessibilityLabel)
                     .accessibilityHint(product.availability.isPurchasable ? "Adds this product to your current list" : "Unavailable")
                     .accessibilityElement(children: .combine)
+                    .accessibilityAddTraits(.isButton)
                     .contextMenu {
                         Button(role: .destructive) {
                             Task { await model.explicitlyReject(product) }

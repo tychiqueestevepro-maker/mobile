@@ -122,7 +122,10 @@ final class NeedsSmokeUITests: XCTestCase {
         submitBtn.tap()
 
         let candidate = firstCandidate(in: app)
-        XCTAssertTrue(candidate.waitForExistence(timeout: 10))
+        if !candidate.waitForExistence(timeout: 10) {
+            print("[UITEST][DEBUG] text flow hierarchy:\n\(app.debugDescription)")
+        }
+        XCTAssertTrue(candidate.exists)
         candidate.tap()
         XCTAssertTrue(app.staticTexts["home.title"].waitForExistence(timeout: 10))
     }
@@ -135,7 +138,10 @@ final class NeedsSmokeUITests: XCTestCase {
         microphone.tap()
 
         let sensodyne = firstCandidate(in: app, withLabel: "Sensodyne")
-        XCTAssertTrue(sensodyne.waitForExistence(timeout: 10))
+        if !sensodyne.waitForExistence(timeout: 10) {
+            print("[UITEST][DEBUG] voice flow hierarchy:\n\(app.debugDescription)")
+        }
+        XCTAssertTrue(sensodyne.exists)
         sensodyne.tap()
         XCTAssertTrue(app.staticTexts["home.title"].waitForExistence(timeout: 10))
     }
