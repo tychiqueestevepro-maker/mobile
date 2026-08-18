@@ -54,7 +54,7 @@ jobs:
           CODE_SIGNING_REQUIRED=NO
           CODE_SIGNING_IDENTITY=""
           ENTITLEMENTS_REQUIRED=NO
-          CONFIGURATION_BUILD_DIR=build
+          CONFIGURATION_BUILD_DIR=$(pwd)/build
           SWIFT_ENABLE_EXPLICIT_MODULES=NO
       - name: Package IPA
         run: |
