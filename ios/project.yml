@@ -26,7 +26,7 @@ settings:
       NEEDS_ENVIRONMENT: development
     Release:
       APS_ENVIRONMENT: production
-      NEEDS_ENVIRONMENT: production
+      NEEDS_ENVIRONMENT: development
 targets:
   Needs:
     type: application
